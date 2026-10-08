@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">设置</string>
+
+    <string name="settings_dose_reminder">吃药提醒</string>
+    <string name="settings_dose_reminder_desc">关闭后将不再发送提醒</string>
+    <string name="settings_missed_reminder">错过服药提醒</string>
+    <string name="settings_missed_reminder_desc">超过 1 小时未打卡时提醒补签</string>
+    <string name="settings_notif_permission">通知权限</string>
+    <string name="settings_notif_permission_desc">未开启，提醒通知不会显示</string>
+    <string name="settings_go_enable">去开启</string>
+    <string name="settings_keep_alive">强保活</string>
+    <string name="settings_keep_alive_desc">常驻前台服务以保证提醒及时</string>
+
+    <string name="settings_language">语言</string>
+    <string name="settings_language_desc">切换后立即生效</string>
+    <string name="settings_language_system">跟随系统</string>
+    <string name="settings_language_zh">简体中文</string>
+    <string name="settings_language_en">English</string>
+
+    <string name="settings_warning_days">默认提前预警天数</string>
+    <string name="settings_days">%1$d 天</string>
+    <string name="settings_custom">自定义</string>
+    <string name="settings_custom_days_label">自定义天数（≥8）</string>
+    <string name="settings_advance">提前提醒</string>
+    <string name="settings_on_time">准时</string>
+    <string name="settings_advance_minutes">提前 %1$d 分</string>
+    <string name="settings_advance_minutes_label">提前分钟数</string>
+    <string name="settings_reminder_message_label">自定义提醒文案（留空用默认）</string>
+
+    <string name="settings_battery_whitelist">设置电池优化白名单</string>
+    <string name="settings_export_csv">导出数据（CSV）</string>
+    <string name="settings_import_csv">导入备份（CSV）</string>
+    <string name="settings_import_done">已导入 %1$d 条记录</string>
+    <string name="settings_import_failed">导入失败：文件无效</string>
+    <string name="settings_export_privacy_title">导出数据</string>
+    <string name="settings_export_privacy_message">导出的 CSV 包含药品名称、用药记录等隐私信息，且未加密。请妥善保管文件。</string>
+    <string name="settings_export_file_name">药物助手数据-%1$s.csv</string>
+    <string name="settings_export_warning">导出文件包含用药记录等隐私信息，请妥善保管</string>
+
+    <string name="settings_declaration_title">声明</string>
+    <string name="settings_declaration_open_source">本作品为开源项目，仅供学习使用</string>
+    <string name="settings_declaration_privacy">隐私说明：本应用不联网、不申请定位/通讯录/存储等权限，用药数据仅保存在本机，不参与系统备份</string>
+    <string name="settings_declaration_author">作者：白玥</string>
+</resources>

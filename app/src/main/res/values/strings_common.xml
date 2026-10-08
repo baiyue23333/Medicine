@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bottom navigation -->
+    <string name="tab_check_in">Check-in</string>
+    <string name="tab_calendar">Calendar</string>
+    <string name="tab_manage">Medicines</string>
+    <string name="tab_card">Card</string>
+
+    <!-- Administration route -->
+    <string name="usage_before_meal">Before meal</string>
+    <string name="usage_with_meal">With meal</string>
+    <string name="usage_after_meal">After meal</string>
+    <string name="usage_patch">Patch</string>
+    <string name="usage_oral">Oral</string>
+    <string name="usage_injection">Injection</string>
+    <string name="usage_inhalation">Inhalation</string>
+    <string name="usage_external">Topical</string>
+    <string name="usage_custom">Custom</string>
+
+    <!-- Dosage schedule -->
+    <string name="dose_scheduled">Scheduled</string>
+    <string name="dose_occasional">Occasional</string>
+    <string name="dose_morning_noon_night">Morning·Noon·Night %1$s</string>
+    <string name="dose_every_hours">Every %1$d h (from %2$s)</string>
+    <string name="dose_times_per_day">%1$d times daily %2$s</string>
+    <string name="dose_custom_period">Custom %1$s</string>
+
+    <!-- Common labels -->
+    <string name="label_intake">Dose: %1$s</string>
+    <string name="label_usage">Route: %1$s</string>
+    <string name="label_usage_short">Route: %1$s</string>
+    <string name="label_frequency">Frequency: %1$s</string>
+    <string name="value_not_set">Not set</string>
+
+    <!-- Common actions -->
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_close">Close</string>
+
+    <!-- Images -->
+    <string name="image_placeholder">IMG</string>
+    <string name="image_tap_anywhere_to_close">Tap anywhere to close</string>
+
+    <!-- Date patterns (DateTimeFormatter) -->
+    <string name="common_date_header">MMM d · EEE</string>
+    <string name="common_date_day">MMM d</string>
+    <string name="common_month_header">MMMM yyyy</string>
+    <!-- Calendar header: starts on Sunday, comma separated -->
+    <string name="common_weekdays">Su,Mo,Tu,We,Th,Fr,Sa</string>
+
+    <!-- CSV export -->
+    <string name="csv_medications_header">Medication ID,Name,Route,Custom route,Dose type,Dose times,Interval hours,Start time,Times per day,Dose per intake,Total quantity,Min keep quantity,Warning days,Scheduled,Occasional,Enabled,Note,Reminder text,Created at</string>
+    <string name="csv_records_header">Record ID,Medication ID,Medication name,Date,Actual time,Scheduled time,Category,Flag,Planned date</string>
+    <string name="csv_category_normal">Regular</string>
+    <string name="csv_category_occasional">Occasional</string>
+    <string name="csv_category_skipped">Skipped</string>
+    <string name="csv_yes">Yes</string>
+    <string name="csv_no">No</string>
+</resources>

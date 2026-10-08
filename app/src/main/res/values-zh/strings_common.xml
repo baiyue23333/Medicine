@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 底部导航 -->
+    <string name="tab_check_in">打卡</string>
+    <string name="tab_calendar">日历</string>
+    <string name="tab_manage">药品管理</string>
+    <string name="tab_card">小卡片</string>
+
+    <!-- 使用方式 -->
+    <string name="usage_before_meal">餐前</string>
+    <string name="usage_with_meal">随餐</string>
+    <string name="usage_after_meal">餐后</string>
+    <string name="usage_patch">贴片</string>
+    <string name="usage_oral">口服</string>
+    <string name="usage_injection">注射</string>
+    <string name="usage_inhalation">吸入</string>
+    <string name="usage_external">外用</string>
+    <string name="usage_custom">自定义</string>
+
+    <!-- 服用方案 -->
+    <string name="dose_scheduled">按次服用</string>
+    <string name="dose_occasional">偶尔服用</string>
+    <string name="dose_morning_noon_night">早中晚 %1$s</string>
+    <string name="dose_every_hours">每 %1$d 小时一次（%2$s 起）</string>
+    <string name="dose_times_per_day">每天 %1$d 次 %2$s</string>
+    <string name="dose_custom_period">自定义 %1$s</string>
+
+    <!-- 通用标签 -->
+    <string name="label_intake">剂量：%1$s</string>
+    <string name="label_usage">服用方式：%1$s</string>
+    <string name="label_usage_short">方式：%1$s</string>
+    <string name="label_frequency">服用次数：%1$s</string>
+    <string name="value_not_set">未设置</string>
+
+    <!-- 通用动作 -->
+    <string name="action_ok">确定</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_delete">删除</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_close">关闭</string>
+
+    <!-- 图片 -->
+    <string name="image_placeholder">图</string>
+    <string name="image_tap_anywhere_to_close">点击任意处关闭</string>
+
+    <!-- 日期格式（SimpleDateFormat/DateTimeFormatter 模式） -->
+    <string name="common_date_header">M月d日 · EEE</string>
+    <string name="common_date_day">M月d日</string>
+    <string name="common_month_header">yyyy年M月</string>
+    <!-- 日历表头：周日起算，逗号分隔 -->
+    <string name="common_weekdays">日,一,二,三,四,五,六</string>
+
+    <!-- CSV 导出 -->
+    <string name="csv_medications_header">药品ID,名称,使用方式,自定义方式,服用类型,服用时间,间隔小时,起始时间,每天次数,每次剂量,总量,最少持续数量,提前预警天数,按次服用,偶尔服用,启用,备注,提醒文案,添加时间</string>
+    <string name="csv_records_header">记录ID,药品ID,药品名称,日期,实际时间,计划时间,类型,标注,计划日期</string>
+    <string name="csv_category_normal">常规</string>
+    <string name="csv_category_occasional">偶尔</string>
+    <string name="csv_category_skipped">跳过</string>
+    <string name="csv_yes">是</string>
+    <string name="csv_no">否</string>
+</resources>

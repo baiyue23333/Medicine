@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Title -->
+    <string name="card_title">Dose Card</string>
+
+    <!-- Filters -->
+    <string name="card_filter_today">Today</string>
+    <string name="card_filter_prescription">Prescriptions</string>
+
+    <!-- Summary -->
+    <string name="card_my_prescription">My Prescriptions</string>
+    <string name="card_summary_title">%1$s dose summary</string>
+    <string name="card_rx_count">%1$d medicines</string>
+    <string name="card_today_summary">%1$d doses taken · %2$d medicines</string>
+    <string name="card_empty_prescriptions">No medicines yet. Add some in Medicines.</string>
+    <string name="card_empty_today">No doses recorded today</string>
+
+    <!-- Card details -->
+    <string name="card_normal_count">Regular %1$d</string>
+    <string name="card_occasional_count">Occasional %1$d</string>
+    <string name="card_unit_times">times</string>
+    <string name="card_week_month_taken">This week %1$d · this month %2$d taken</string>
+    <string name="card_easter_egg">祝您永保健康 - 白玥</string>
+</resources>

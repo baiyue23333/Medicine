@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Medicine management screen -->
+    <string name="manage_title">Medicines</string>
+    <string name="manage_show_image">Show image</string>
+    <string name="manage_empty_hint">No medicines yet. Tap + at the bottom right to add.</string>
+    <string name="manage_add_medication">Add medicine</string>
+    <string name="manage_edit_medication">Edit medicine</string>
+
+    <!-- Delete confirmation -->
+    <string name="manage_delete_title">Delete medicine</string>
+    <string name="manage_delete_message">Delete %1$s? Related check-in records will be kept.</string>
+
+    <!-- Medicine card -->
+    <string name="manage_action_manage">Manage</string>
+    <string name="manage_action_collapse">Collapse</string>
+    <string name="manage_label_route">Route:\u0020</string>
+    <string name="manage_label_frequency">Frequency:\u0020</string>
+    <string name="manage_label_dose_per_intake">Per dose:\u0020</string>
+    <string name="manage_label_total">Total:\u0020</string>
+    <string name="manage_note">Note: %1$s</string>
+    <string name="manage_occasional_badge">Occasional</string>
+    <string name="manage_low_stock">Low stock</string>
+    <string name="manage_out_of_stock">Out of stock</string>
+    <string name="manage_take_as_needed">Take as needed</string>
+    <string name="manage_no_quantity_no_prediction">Total not set, no prediction yet</string>
+    <string name="manage_total_quantity">Total %1$s</string>
+    <string name="manage_remaining_visit_reminder">Remaining %1$s, visit reminder triggered</string>
+    <string name="manage_remaining_days">Remaining %1$s, about %2$d day(s) left</string>
+
+    <!-- Medicine form -->
+    <string name="manage_field_name">Medicine name</string>
+    <string name="manage_action_pick_image">Choose image</string>
+    <string name="manage_action_change_image">Change image</string>
+    <string name="manage_action_remove">Remove</string>
+    <string name="manage_section_usage">Route</string>
+    <string name="manage_field_custom_usage">Custom route</string>
+    <string name="manage_section_frequency">Frequency</string>
+    <string name="manage_dose_type_morning_noon_night">Morning·Noon·Night</string>
+    <string name="manage_dose_type_every_hours">Every few hours</string>
+    <string name="manage_dose_type_times_per_day">Times per day</string>
+    <string name="manage_label_time_morning">Morning</string>
+    <string name="manage_label_time_noon">Noon</string>
+    <string name="manage_label_time_night">Night</string>
+    <string name="manage_field_every_hours">Dose every few hours</string>
+    <string name="manage_field_start_time">Start time</string>
+    <string name="manage_field_times_per_day">Times per day</string>
+    <string name="manage_field_time_index">Dose %1$d</string>
+    <string name="manage_field_time_number">Time %1$d</string>
+    <string name="manage_action_add_time">Add time</string>
+    <string name="manage_field_dose_per_intake">Dose per intake</string>
+    <string name="manage_field_total_quantity">Total quantity</string>
+    <string name="manage_quantity_step_increase">Increase quantity</string>
+    <string name="manage_quantity_step_decrease">Decrease quantity</string>
+    <string name="manage_quantity_step_amount">Amount</string>
+    <string name="manage_quantity_step_hint">Long-press -/+ to enter a custom amount</string>
+    <string name="manage_field_min_keep">Minimum keep quantity</string>
+    <string name="manage_field_warning_days">Warning days in advance</string>
+    <string name="manage_field_note">Note (optional)</string>
+    <string name="manage_field_reminder_text">Medicine-specific reminder text (empty for global)</string>
+    <string name="manage_action_save">Save</string>
+
+    <!-- Time picker -->
+    <string name="manage_dialog_pick_time">Select time</string>
+</resources>

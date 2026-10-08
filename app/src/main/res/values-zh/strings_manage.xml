@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 药品管理页 -->
+    <string name="manage_title">药品管理</string>
+    <string name="manage_show_image">显示图片</string>
+    <string name="manage_empty_hint">暂无药品，点击右下角 + 添加</string>
+    <string name="manage_add_medication">添加药品</string>
+    <string name="manage_edit_medication">编辑药品</string>
+
+    <!-- 删除确认 -->
+    <string name="manage_delete_title">删除药品</string>
+    <string name="manage_delete_message">确定删除「%1$s」吗？相关的打卡记录将保留。</string>
+
+    <!-- 药品卡片 -->
+    <string name="manage_action_manage">管理</string>
+    <string name="manage_action_collapse">收起</string>
+    <string name="manage_label_route">方式：</string>
+    <string name="manage_label_frequency">次数：</string>
+    <string name="manage_label_dose_per_intake">每次：</string>
+    <string name="manage_label_total">总量：</string>
+    <string name="manage_note">备注：%1$s</string>
+    <string name="manage_occasional_badge">偶尔</string>
+    <string name="manage_low_stock">库存低</string>
+    <string name="manage_out_of_stock">已用完</string>
+    <string name="manage_take_as_needed">按需服用</string>
+    <string name="manage_no_quantity_no_prediction">未设置总量，暂不预测</string>
+    <string name="manage_total_quantity">总量 %1$s</string>
+    <string name="manage_remaining_visit_reminder">剩余 %1$s，已触发就医提醒</string>
+    <string name="manage_remaining_days">剩余 %1$s，预计可服 %2$d 天</string>
+
+    <!-- 药品表单 -->
+    <string name="manage_field_name">药品名称</string>
+    <string name="manage_action_pick_image">选择图片</string>
+    <string name="manage_action_change_image">更换图片</string>
+    <string name="manage_action_remove">移除</string>
+    <string name="manage_section_usage">使用方式</string>
+    <string name="manage_field_custom_usage">自定义使用方式</string>
+    <string name="manage_section_frequency">服用次数</string>
+    <string name="manage_dose_type_morning_noon_night">早中晚</string>
+    <string name="manage_dose_type_every_hours">每几小时</string>
+    <string name="manage_dose_type_times_per_day">每天几次</string>
+    <string name="manage_label_time_morning">早</string>
+    <string name="manage_label_time_noon">午</string>
+    <string name="manage_label_time_night">晚</string>
+    <string name="manage_field_every_hours">每几小时服用</string>
+    <string name="manage_field_start_time">起始时间</string>
+    <string name="manage_field_times_per_day">每天次数</string>
+    <string name="manage_field_time_index">第%1$d次</string>
+    <string name="manage_field_time_number">时间%1$d</string>
+    <string name="manage_action_add_time">添加时间</string>
+    <string name="manage_field_dose_per_intake">一次服用剂量</string>
+    <string name="manage_field_total_quantity">药品总量</string>
+    <string name="manage_quantity_step_increase">增加数量</string>
+    <string name="manage_quantity_step_decrease">减少数量</string>
+    <string name="manage_quantity_step_amount">增减数量</string>
+    <string name="manage_quantity_step_hint">长按 -/+ 输入自定义增减数量</string>
+    <string name="manage_field_min_keep">最少持续数量</string>
+    <string name="manage_field_warning_days">提前预警天数</string>
+    <string name="manage_field_note">备注（可选）</string>
+    <string name="manage_field_reminder_text">该药专属提醒文案（留空用全局）</string>
+    <string name="manage_action_save">保存</string>
+
+    <!-- 时间选择 -->
+    <string name="manage_dialog_pick_time">选择时间</string>
+</resources>

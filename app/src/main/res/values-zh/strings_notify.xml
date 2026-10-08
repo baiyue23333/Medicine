@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通知渠道 -->
+    <string name="notif_channel_med">吃药提醒</string>
+    <string name="notif_channel_med_desc">按时吃药提醒</string>
+    <string name="notif_channel_missed">错过服药提醒</string>
+    <string name="notif_channel_missed_desc">超过打卡时间仍未记录时提醒补签</string>
+    <string name="notif_channel_visit">就医提醒</string>
+    <string name="notif_channel_visit_desc">药品即将用完，需要就医或购药</string>
+    <string name="notif_channel_keep">运行状态</string>
+    <string name="notif_channel_keep_desc">为保证提醒正常运行而常驻的低优先级通知</string>
+
+    <!-- 通知内容 -->
+    <string name="notif_dose_title">吃药提醒</string>
+    <string name="notif_visit_title">就医提醒</string>
+    <string name="notif_visit_text">以下药品即将用完，请尽快就医/购药：%1$s</string>
+    <string name="notif_missed_title">错过服药提醒</string>
+    <string name="notif_missed_text">%1$s 的用药还未打卡，可在打卡页补签</string>
+    <string name="notif_keep_title">药物助手运行中</string>
+    <string name="notif_keep_text">为保证吃药提醒正常运行</string>
+    <string name="notif_name_separator">、</string>
+</resources>

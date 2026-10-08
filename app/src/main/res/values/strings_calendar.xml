@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Title -->
+    <string name="calendar_title">Calendar</string>
+
+    <!-- Legend -->
+    <string name="calendar_legend_medication">Doses</string>
+    <string name="calendar_legend_visit">Clinic visit</string>
+    <string name="calendar_legend_occasional">Occasional doses</string>
+
+    <!-- Day detail -->
+    <string name="calendar_no_records">No doses recorded</string>
+    <string name="calendar_medication_fallback">Medication</string>
+    <string name="calendar_tag_occasional">(Occasional)</string>
+    <string name="calendar_tag_early">(Early)</string>
+    <string name="calendar_tag_backfill">(Backfilled)</string>
+    <string name="calendar_visit_warning">⚠ Within a visit reminder period</string>
+    <string name="calendar_record_line">%1$s  %2$s%3$s  Dose: %4$s</string>
+    <string name="calendar_undo_title">Undo this dose?</string>
+    <string name="calendar_undo_message">This will delete the record and restore the inventory.</string>
+    <string name="calendar_undo_confirm">Undo</string>
+</resources>

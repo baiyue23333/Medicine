@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 标题 -->
+    <string name="card_title">服用小卡片</string>
+
+    <!-- 筛选 -->
+    <string name="card_filter_today">今日</string>
+    <string name="card_filter_prescription">药方</string>
+
+    <!-- 小结 -->
+    <string name="card_my_prescription">我的药方</string>
+    <string name="card_summary_title">%1$s 服药小结</string>
+    <string name="card_rx_count">共 %1$d 种药品</string>
+    <string name="card_today_summary">共服用 %1$d 次 · %2$d 种药品</string>
+    <string name="card_empty_prescriptions">暂无药品，请先在「药品管理」中添加</string>
+    <string name="card_empty_today">今天还没有服药记录</string>
+
+    <!-- 卡片详情 -->
+    <string name="card_normal_count">常规 %1$d 次</string>
+    <string name="card_occasional_count">偶尔 %1$d 次</string>
+    <string name="card_unit_times">次</string>
+    <string name="card_week_month_taken">本周 %1$d 次 · 本月 %2$d 次</string>
+    <string name="card_easter_egg">祝您永保健康 - 白玥</string>
+</resources>

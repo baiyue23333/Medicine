@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Settings</string>
+
+    <string name="settings_dose_reminder">Dose reminders</string>
+    <string name="settings_dose_reminder_desc">No notifications will be sent when turned off</string>
+    <string name="settings_missed_reminder">Missed dose reminders</string>
+    <string name="settings_missed_reminder_desc">Remind me to backfill one hour after a missed dose</string>
+    <string name="settings_notif_permission">Notification permission</string>
+    <string name="settings_notif_permission_desc">Not granted, reminder notifications stay hidden</string>
+    <string name="settings_go_enable">Enable</string>
+    <string name="settings_keep_alive">Keep-alive</string>
+    <string name="settings_keep_alive_desc">Persistent foreground service keeps reminders on time</string>
+
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">Takes effect immediately</string>
+    <string name="settings_language_system">System default</string>
+    <string name="settings_language_zh">简体中文</string>
+    <string name="settings_language_en">English</string>
+
+    <string name="settings_warning_days">Default warning days</string>
+    <string name="settings_days">%1$d days</string>
+    <string name="settings_custom">Custom</string>
+    <string name="settings_custom_days_label">Custom days (8 or more)</string>
+    <string name="settings_advance">Reminder lead time</string>
+    <string name="settings_on_time">On time</string>
+    <string name="settings_advance_minutes">%1$d min early</string>
+    <string name="settings_advance_minutes_label">Minutes early</string>
+    <string name="settings_reminder_message_label">Custom reminder text (empty for default)</string>
+
+    <string name="settings_battery_whitelist">Battery optimization whitelist</string>
+    <string name="settings_export_csv">Export data (CSV)</string>
+    <string name="settings_import_csv">Import backup (CSV)</string>
+    <string name="settings_import_done">Imported %1$d record(s)</string>
+    <string name="settings_import_failed">Import failed: invalid file</string>
+    <string name="settings_export_privacy_title">Export data</string>
+    <string name="settings_export_privacy_message">The exported CSV contains private data such as medicine names and dose records. It is not encrypted. Keep the file safe.</string>
+    <string name="settings_export_file_name">medicine-data-%1$s.csv</string>
+    <string name="settings_export_warning">The exported file contains private data such as dose records. Keep it safe.</string>
+
+    <string name="settings_declaration_title">About</string>
+    <string name="settings_declaration_open_source">An open-source project for learning purposes only</string>
+    <string name="settings_declaration_privacy">Privacy: this app has no network access and requests no location, contacts or storage permissions. Your data stays on this device and is excluded from system backups.</string>
+    <string name="settings_declaration_author">Author: Bai Yue</string>
+</resources>

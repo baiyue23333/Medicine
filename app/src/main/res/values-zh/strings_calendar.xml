@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 标题 -->
+    <string name="calendar_title">日历</string>
+
+    <!-- 图例 -->
+    <string name="calendar_legend_medication">吃药记录</string>
+    <string name="calendar_legend_visit">就医时间段</string>
+    <string name="calendar_legend_occasional">偶尔服药</string>
+
+    <!-- 当日详情 -->
+    <string name="calendar_no_records">无服药记录</string>
+    <string name="calendar_medication_fallback">药品</string>
+    <string name="calendar_tag_occasional">（偶尔）</string>
+    <string name="calendar_tag_early">（提前）</string>
+    <string name="calendar_tag_backfill">（补签）</string>
+    <string name="calendar_visit_warning">⚠ 处于就医提醒时间段</string>
+    <string name="calendar_record_line">%1$s  %2$s%3$s  剂量：%4$s</string>
+    <string name="calendar_undo_title">撤销这条服药记录？</string>
+    <string name="calendar_undo_message">将删除该记录并恢复库存数量。</string>
+    <string name="calendar_undo_confirm">撤销</string>
+</resources>

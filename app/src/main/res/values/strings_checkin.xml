@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Check-in screen -->
+    <string name="checkin_title">Check-in for Today</string>
+    <string name="checkin_pending_count">Pending: %1$d</string>
+    <string name="checkin_no_meds_now">No medicines due right now</string>
+    <string name="checkin_meds_due_header">Medicines due now</string>
+
+    <!-- Actions -->
+    <string name="checkin_action_check_in">Check in</string>
+    <string name="checkin_record_occasional">Record occasional dose</string>
+    <string name="checkin_occasional">Occasional</string>
+    <string name="checkin_got_it">Got it</string>
+    <string name="checkin_backfill">Backfill</string>
+    <string name="checkin_manage">Manage</string>
+    <string name="checkin_done">Done</string>
+    <string name="checkin_undo">Undo last check-in</string>
+    <string name="checkin_close_dose_warning">Doses of %1$s are taken too close together (%2$d min apart)</string>
+
+    <!-- Celebration -->
+    <string name="checkin_celebration_subtitle">Every on-time dose is a boost for your health</string>
+    <string-array name="checkin_praise_messages">
+        <item>Great, recorded!</item>
+        <item>Keep it up, you are doing well!</item>
+        <item>Nice work, stay consistent!</item>
+        <item>On time again, well done!</item>
+        <item>One more done, proud of you!</item>
+        <item>Discipline looks good on you!</item>
+    </string-array>
+
+    <!-- Next dose -->
+    <string name="checkin_next_dose_title">Next dose</string>
+    <string name="checkin_missed_next_title">Missed dose</string>
+    <string name="checkin_missed_next_subtitle">Missed — please backfill</string>
+    <string name="checkin_yesterday">Yesterday</string>
+    <string name="checkin_today">Today</string>
+    <string name="checkin_tomorrow">Tomorrow</string>
+    <string name="checkin_early">Take early</string>
+    <string name="checkin_early_done">Taken early</string>
+
+    <!-- Medicine name expand/collapse -->
+    <string name="checkin_collapse">Tap to collapse</string>
+    <string name="checkin_view_full_name">Tap to see full name</string>
+
+    <!-- Occasional medicine -->
+    <string name="checkin_occasional_short">Occ.</string>
+    <string name="checkin_will_record_occasional">Will be recorded as occasional</string>
+    <string name="checkin_occasional_dialog_title">Occasional medicines</string>
+    <string name="checkin_occasional_empty">No occasional medicines yet. Add one in Medicines first</string>
+
+    <!-- Missed slots / backfill -->
+    <string name="checkin_missed_count">%1$d missed doses</string>
+    <string name="checkin_backfill_dialog_title">Backfill dose records</string>
+    <string name="checkin_backfill_pick_hint">These dose times were missed. Select the records to backfill:</string>
+    <string name="checkin_backfill_manage_hint">Tap Delete to mark this dose as really not taken. You will not be reminded again:</string>
+    <string name="checkin_backfill_confirm_note">Backfill records the actual time as the current time and deducts stock accordingly.</string>
+    <string name="checkin_backfill_delete_note">Deleting will not deduct stock or count as a dose record.</string>
+    <string name="checkin_backfill_delete_title">Stop backfill reminders</string>
+    <string name="checkin_backfill_delete_message">Confirm this dose was really not taken? You will not be reminded to backfill it again, and stock will not be deducted.</string>
+    <string name="checkin_backfill_done">Backfilled %1$d</string>
+
+    <!-- Refill alert -->
+    <string name="checkin_refill_alert_title">Refill reminder</string>
+    <string name="checkin_refill_alert_message">These medicines are running low. Please see a doctor or refill soon:</string>
+</resources>
