@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.baiyue.medicine.MedicineApp
+import com.baiyue.medicine.data.MedicationImageStore
 import com.baiyue.medicine.data.entity.Medication
 import com.baiyue.medicine.reminder.ReminderScheduler
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,16 +37,22 @@ class ManageViewModel(app: Application) : AndroidViewModel(app) {
 
     fun upsert(med: Medication) {
         viewModelScope.launch {
+            val previous = if (med.id != 0L) repo.getMedication(med.id) else null
             // 新建时记录添加时间，补签不追溯添加之前的日期
             val toSave = if (med.id == 0L) med.copy(createdAt = System.currentTimeMillis()) else med
             repo.upsertMedication(toSave)
+            if (previous != null && previous.imageUri != toSave.imageUri) {
+                MedicationImageStore.delete(getApplication(), previous.imageUri)
+            }
             reschedule()
         }
     }
 
     fun delete(med: Medication) {
         viewModelScope.launch {
+            ReminderScheduler.cancelForMedication(getApplication(), med.id)
             repo.deleteMedication(med)
+            MedicationImageStore.delete(getApplication(), med.imageUri)
             reschedule()
         }
     }

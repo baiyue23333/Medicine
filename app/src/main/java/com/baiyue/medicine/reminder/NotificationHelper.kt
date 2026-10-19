@@ -74,8 +74,15 @@ object NotificationHelper {
         )
     }
 
-    fun show(context: Context, channelId: String, id: Int, title: String, text: String) {
-        val n = NotificationCompat.Builder(context, channelId)
+    fun show(
+        context: Context,
+        channelId: String,
+        id: Int,
+        title: String,
+        text: String,
+        actions: List<NotificationCompat.Action> = emptyList()
+    ) {
+        val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_stat_med)
             .setContentTitle(title)
             .setContentText(text)
@@ -84,11 +91,15 @@ object NotificationHelper {
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setContentIntent(contentIntent(context))
             .setAutoCancel(true)
-            .build()
+        actions.forEach(builder::addAction)
         try {
-            NotificationManagerCompat.from(context).notify(id, n)
+            NotificationManagerCompat.from(context).notify(id, builder.build())
         } catch (_: SecurityException) {
             // 无通知权限时静默忽略
         }
+    }
+
+    fun cancel(context: Context, id: Int) {
+        runCatching { NotificationManagerCompat.from(context).cancel(id) }
     }
 }

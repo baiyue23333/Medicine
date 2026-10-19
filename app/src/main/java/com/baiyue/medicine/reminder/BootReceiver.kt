@@ -10,10 +10,11 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-/** 开机后按用户设置重建提醒与保活服务 */
+/** 开机、系统时间/时区变化、应用更新后按用户设置重建提醒与保活服务 */
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
-        if (intent?.action != Intent.ACTION_BOOT_COMPLETED) return
+        val action = intent?.action ?: return
+        if (action !in SUPPORTED_ACTIONS) return
         val pendingResult = goAsync()
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
             try {
@@ -32,5 +33,15 @@ class BootReceiver : BroadcastReceiver() {
                 pendingResult.finish()
             }
         }
+    }
+
+    private companion object {
+        val SUPPORTED_ACTIONS = setOf(
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_TIME_CHANGED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+            Intent.ACTION_DATE_CHANGED,
+            Intent.ACTION_MY_PACKAGE_REPLACED
+        )
     }
 }

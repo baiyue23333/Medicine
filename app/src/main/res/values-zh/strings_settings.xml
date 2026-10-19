@@ -8,6 +8,8 @@
     <string name="settings_missed_reminder_desc">超过 1 小时未打卡时提醒补签</string>
     <string name="settings_notif_permission">通知权限</string>
     <string name="settings_notif_permission_desc">未开启，提醒通知不会显示</string>
+    <string name="settings_exact_alarm">精确提醒权限</string>
+    <string name="settings_exact_alarm_desc">未开启，系统可能会延迟提醒</string>
     <string name="settings_go_enable">去开启</string>
     <string name="settings_keep_alive">强保活</string>
     <string name="settings_keep_alive_desc">常驻前台服务以保证提醒及时</string>

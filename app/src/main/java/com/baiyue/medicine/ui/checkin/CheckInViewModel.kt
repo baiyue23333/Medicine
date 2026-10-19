@@ -258,7 +258,8 @@ class CheckInViewModel(app: Application) : AndroidViewModel(app) {
                     actual,
                     RecordCategory.NORMAL,
                     scheduledTime = item.time,
-                    plannedDate = item.date
+                    plannedDate = item.date,
+                    medicationName = item.medication.name
                 )
                 repo.decrementQuantity(item.medication.id, intakeAmount(item.medication))
                 entries += UndoEntry(id, key)
@@ -287,7 +288,8 @@ class CheckInViewModel(app: Application) : AndroidViewModel(app) {
                     RecordCategory.NORMAL,
                     scheduledTime = item.time,
                     flag = RecordFlag.BACKFILL,
-                    plannedDate = item.date
+                    plannedDate = item.date,
+                    medicationName = item.medication.name
                 )
                 repo.decrementQuantity(item.medication.id, intakeAmount(item.medication))
                 entries += UndoEntry(id, key)
@@ -314,7 +316,8 @@ class CheckInViewModel(app: Application) : AndroidViewModel(app) {
                     RecordCategory.NORMAL,
                     scheduledTime = time,
                     flag = RecordFlag.EARLY,
-                    plannedDate = date
+                    plannedDate = date,
+                    medicationName = med.name
                 )
                 repo.decrementQuantity(med.id, intakeAmount(med))
                 entries += UndoEntry(id, key)
@@ -336,7 +339,8 @@ class CheckInViewModel(app: Application) : AndroidViewModel(app) {
                     item.time,
                     RecordCategory.SKIPPED,
                     scheduledTime = item.time,
-                    plannedDate = item.date
+                    plannedDate = item.date,
+                    medicationName = item.medication.name
                 )
             }
         }
@@ -352,7 +356,7 @@ class CheckInViewModel(app: Application) : AndroidViewModel(app) {
             meds.forEach { med ->
                 val key = "occ|${med.id}|$date|$time"
                 if (!processedKeys.add(key)) return@forEach
-                val id = repo.addRecord(med.id, date, time, RecordCategory.OCCASIONAL)
+                val id = repo.addRecord(med.id, date, time, RecordCategory.OCCASIONAL, medicationName = med.name)
                 repo.decrementQuantity(med.id, intakeAmount(med))
                 entries += UndoEntry(id, key)
             }

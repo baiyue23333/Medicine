@@ -499,7 +499,9 @@ private fun CalendarRecordRow(
     onDelete: () -> Unit
 ) {
     val names = nameMap[record.medicationId]
-    val full = names?.full ?: stringResource(R.string.calendar_medication_fallback)
+    val full = record.medicationName.ifBlank {
+        names?.full ?: stringResource(R.string.calendar_medication_fallback)
+    }
     val dose = names?.dose ?: 1.0
     val tag = when {
         record.flag == RecordFlag.EARLY -> stringResource(R.string.calendar_tag_early)

@@ -47,6 +47,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +59,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -66,10 +68,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.baiyue.medicine.R
 import com.baiyue.medicine.i18n.AppLocale
 import com.baiyue.medicine.i18n.findActivity
+import com.baiyue.medicine.reminder.ReminderScheduler
 import com.baiyue.medicine.ui.components.AppBackdrop
 import com.baiyue.medicine.ui.components.AppCard
 import com.baiyue.medicine.ui.components.AppGlyph
@@ -102,6 +107,18 @@ fun SettingsScreen(
     val scope = rememberCoroutineScope()
 
     val notifEnabled = remember { mutableStateOf(NotificationManagerCompat.from(context).areNotificationsEnabled()) }
+    var exactAlarmAllowed by remember { mutableStateOf(ReminderScheduler.canScheduleExactAlarms(context)) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                notifEnabled.value = NotificationManagerCompat.from(context).areNotificationsEnabled()
+                exactAlarmAllowed = ReminderScheduler.canScheduleExactAlarms(context)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     val versionName = remember {
         runCatching {
@@ -205,6 +222,27 @@ fun SettingsScreen(
                                     context.startActivity(
                                         Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
                                             .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                                    )
+                                }
+                            }
+                        )
+                    }
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S && !exactAlarmAllowed) {
+                        RowDivider()
+                        ActionSettingRow(
+                            glyph = AppGlyph.Clock,
+                            title = stringResource(R.string.settings_exact_alarm),
+                            subtitle = stringResource(R.string.settings_exact_alarm_desc),
+                            tint = WarningRed,
+                            container = WarningSoft,
+                            trailingText = stringResource(R.string.settings_go_enable),
+                            onClick = {
+                                runCatching {
+                                    context.startActivity(
+                                        Intent(
+                                            Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                                            Uri.parse("package:${context.packageName}")
+                                        )
                                     )
                                 }
                             }

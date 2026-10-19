@@ -12,10 +12,14 @@
 
     <!-- 通知内容 -->
     <string name="notif_dose_title">吃药提醒</string>
+    <string name="notif_dose_text">该服用 %1$s 了（%2$s）</string>
     <string name="notif_visit_title">就医提醒</string>
     <string name="notif_visit_text">以下药品即将用完，请尽快就医/购药：%1$s</string>
     <string name="notif_missed_title">错过服药提醒</string>
     <string name="notif_missed_text">%1$s 的用药还未打卡，可在打卡页补签</string>
+    <string name="notif_action_taken">已服用</string>
+    <string name="notif_action_snooze">10 分钟后提醒</string>
+    <string name="notif_snoozed">%1$d 分钟后再提醒</string>
     <string name="notif_keep_title">药物助手运行中</string>
     <string name="notif_keep_text">为保证吃药提醒正常运行</string>
     <string name="notif_name_separator">、</string>

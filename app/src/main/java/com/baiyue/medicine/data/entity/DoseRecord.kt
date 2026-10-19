@@ -25,5 +25,7 @@ data class DoseRecord(
     /** 服药标注：正常 / 提前 / 补签 */
     val flag: RecordFlag = RecordFlag.NORMAL,
     /** 计划所属日期 yyyy-MM-dd；空表示与 date 相同（补签跨日时 date 为实际当天、plannedDate 为计划日） */
-    val plannedDate: String = ""
+    val plannedDate: String = "",
+    /** 记录写入时的药品名称快照；即使药品之后被删除，历史记录仍能显示名称 */
+    val medicationName: String = ""
 )

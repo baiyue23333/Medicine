@@ -17,6 +17,9 @@ interface DoseRecordDao {
     @Query("SELECT * FROM dose_records ORDER BY date DESC, time DESC")
     fun observeAll(): Flow<List<DoseRecord>>
 
+    @Query("SELECT * FROM dose_records ORDER BY date DESC, time DESC")
+    suspend fun getAll(): List<DoseRecord>
+
     @Query("SELECT * FROM dose_records WHERE date = :date ORDER BY time DESC")
     fun observeByDate(date: String): Flow<List<DoseRecord>>
 

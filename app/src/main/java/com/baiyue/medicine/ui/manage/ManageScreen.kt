@@ -1,7 +1,5 @@
 package com.baiyue.medicine.ui.manage
 
-import android.content.Context
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -66,6 +64,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,6 +72,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -85,6 +85,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.baiyue.medicine.R
+import com.baiyue.medicine.data.MedicationImageStore
 import com.baiyue.medicine.data.entity.Medication
 import com.baiyue.medicine.model.DoseType
 import com.baiyue.medicine.model.UsageType
@@ -119,8 +120,6 @@ import com.baiyue.medicine.ui.theme.WarmTint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.util.UUID
 import kotlin.math.ceil
 
 @Composable
@@ -134,6 +133,19 @@ fun ManageScreen(
     var editing by remember { mutableStateOf<Medication?>(null) }
     var showForm by remember { mutableStateOf(false) }
     var deleting by remember { mutableStateOf<Medication?>(null) }
+    var query by rememberSaveable { mutableStateOf("") }
+
+    val filteredMeds = remember(meds, query) {
+        val keyword = query.trim()
+        if (keyword.isBlank()) {
+            meds
+        } else {
+            meds.filter { med ->
+                listOf(med.name, med.note, med.customUsage, med.reminderText)
+                    .any { it.contains(keyword, ignoreCase = true) }
+            }
+        }
+    }
 
     Box(
         Modifier
@@ -185,27 +197,54 @@ fun ManageScreen(
                     }
                 }
             } else {
-                item(key = "listHeader") {
-                    SectionHeader(
-                        title = stringResource(R.string.ui_manage_list),
-                        trailing = {
-                            AppPill(
-                                stringResource(R.string.card_rx_count, meds.size),
-                                glyph = AppGlyph.Pill
-                            )
-                        }
+                item(key = "search") {
+                    MedicineSearchField(
+                        value = query,
+                        onValueChange = { query = it },
+                        onClear = { query = "" }
                     )
                 }
 
-                items(meds, key = { it.id }) { med ->
-                    MedicationCard(
-                        med = med,
-                        showImage = showImage,
-                        onEdit = { editing = med; showForm = true },
-                        onDelete = { deleting = med },
-                        onAdjustQuantity = { vm.adjustQuantity(med, it) },
-                        modifier = Modifier.animateItem()
-                    )
+                if (filteredMeds.isEmpty()) {
+                    item(key = "noSearchResults") {
+                        EmptyState(
+                            glyph = AppGlyph.Search,
+                            title = stringResource(R.string.ui_no_search_results),
+                            body = stringResource(R.string.ui_search_try_another),
+                            action = {
+                                TextButton(onClick = { query = "" }) {
+                                    Text(stringResource(R.string.ui_clear_search), fontWeight = FontWeight.Bold)
+                                }
+                            }
+                        )
+                    }
+                } else {
+                    item(key = "listHeader") {
+                        SectionHeader(
+                            title = stringResource(R.string.ui_manage_list),
+                            trailing = {
+                                AppPill(
+                                    pluralStringResource(
+                                        R.plurals.ui_medicines_count,
+                                        filteredMeds.size,
+                                        filteredMeds.size
+                                    ),
+                                    glyph = AppGlyph.Pill
+                                )
+                            }
+                        )
+                    }
+
+                    items(filteredMeds, key = { it.id }) { med ->
+                        MedicationCard(
+                            med = med,
+                            showImage = showImage,
+                            onEdit = { editing = med; showForm = true },
+                            onDelete = { deleting = med },
+                            onAdjustQuantity = { vm.adjustQuantity(med, it) },
+                            modifier = Modifier.animateItem()
+                        )
+                    }
                 }
             }
         }
@@ -297,6 +336,50 @@ private fun ImageVisibilityRow(checked: Boolean, onCheckedChange: (Boolean) -> U
         )
         Switch(checked = checked, onCheckedChange = onCheckedChange)
     }
+}
+
+@Composable
+private fun MedicineSearchField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onClear: () -> Unit
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = {
+            Text(
+                stringResource(R.string.ui_search_placeholder),
+                color = TextFaint,
+                fontSize = 13.sp
+            )
+        },
+        leadingIcon = {
+            GlyphIcon(AppGlyph.Search, tint = TextSub, size = 18.dp)
+        },
+        trailingIcon = {
+            if (value.isNotEmpty()) {
+                Box(
+                    Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .clickable(onClick = onClear),
+                    contentAlignment = Alignment.Center
+                ) {
+                    GlyphIcon(
+                        AppGlyph.Close,
+                        tint = TextSub,
+                        size = 15.dp,
+                        contentDescription = stringResource(R.string.ui_clear_search)
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        shape = RoundedCornerShape(17.dp),
+        colors = formFieldColors()
+    )
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -623,14 +706,27 @@ private fun MedicationFormDialog(
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
             scope.launch {
-                val saved = withContext(Dispatchers.IO) { copyImageToPrivate(context, uri) }
-                imageUri = saved ?: uri.toString()
+                val saved = withContext(Dispatchers.IO) { MedicationImageStore.save(context, uri) }
+                if (saved != null) {
+                    val previous = imageUri
+                    if (previous.isNotBlank() && previous != initial?.imageUri) {
+                        MedicationImageStore.delete(context, previous)
+                    }
+                    imageUri = saved
+                }
             }
         }
     }
 
+    val dismiss = {
+        if (imageUri.isNotBlank() && imageUri != initial?.imageUri) {
+            MedicationImageStore.delete(context, imageUri)
+        }
+        onDismiss()
+    }
+
     Dialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = dismiss,
         properties = DialogProperties(dismissOnClickOutside = false)
     ) {
         Surface(
@@ -674,7 +770,7 @@ private fun MedicationFormDialog(
                                 .size(36.dp)
                                 .clip(CircleShape)
                                 .background(MintWash)
-                                .clickable(onClick = onDismiss),
+                                .clickable(onClick = dismiss),
                             contentAlignment = Alignment.Center
                         ) {
                             GlyphIcon(
@@ -735,9 +831,15 @@ private fun MedicationFormDialog(
                                 }
                                 if (imageUri.isNotEmpty()) {
                                     TextButton(
-                                        onClick = { imageUri = "" },
-                                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
-                                    ) {
+                                onClick = {
+                                    val current = imageUri
+                                    if (current.isNotBlank() && current != initial?.imageUri) {
+                                        MedicationImageStore.delete(context, current)
+                                    }
+                                    imageUri = ""
+                                },
+                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
+                            ) {
                                         Text(
                                             stringResource(R.string.manage_action_remove),
                                             color = TextSub,
@@ -964,7 +1066,7 @@ private fun MedicationFormDialog(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     OutlinedButton(
-                        onClick = onDismiss,
+                        onClick = dismiss,
                         modifier = Modifier
                             .weight(1f)
                             .height(50.dp),
@@ -1409,16 +1511,6 @@ private fun buildMedication(
         createdAt = initial?.createdAt ?: 0L
     )
 }
-
-/** 把选中的相册图片复制到应用私有目录，返回文件 URI；失败返回 null */
-private fun copyImageToPrivate(context: Context, source: Uri): String? = runCatching {
-    val dir = File(context.filesDir, "med_images").apply { mkdirs() }
-    val dest = File(dir, "${UUID.randomUUID()}.jpg")
-    context.contentResolver.openInputStream(source)?.use { input ->
-        dest.outputStream().use { output -> input.copyTo(output) }
-    } ?: return@runCatching null
-    Uri.fromFile(dest).toString()
-}.getOrNull()
 
 private fun initTimeList(initial: Medication?): List<String> {
     if (initial == null) return listOf("08:00", "12:00", "18:00")

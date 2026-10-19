@@ -14,7 +14,7 @@ import com.baiyue.medicine.data.entity.Medication
 
 @Database(
     entities = [Medication::class, DoseRecord::class],
-    version = 8,
+    version = 9,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -117,13 +117,30 @@ abstract class MedicineDatabase : RoomDatabase() {
             }
         }
 
+        /**
+         * 记录写入时的药品名称快照。旧记录从当前药品表回填，删除药品后历史记录仍能显示名称。
+         */
+        private val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE dose_records ADD COLUMN medicationName TEXT NOT NULL DEFAULT ''")
+                db.execSQL(
+                    "UPDATE dose_records SET medicationName = " +
+                        "COALESCE((SELECT name FROM medications WHERE medications.id = dose_records.medicationId), '') " +
+                        "WHERE medicationName = ''"
+                )
+            }
+        }
+
         fun getInstance(context: Context): MedicineDatabase =
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     MedicineDatabase::class.java,
                     "medicine.db"
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+                ).addMigrations(
+                    MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
+                    MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9
+                )
                     .build().also { INSTANCE = it }
             }
     }

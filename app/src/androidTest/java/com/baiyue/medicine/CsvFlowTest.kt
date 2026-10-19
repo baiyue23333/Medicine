@@ -35,6 +35,49 @@ class CsvFlowTest {
     fun tearDown() = clearDb()
 
     @Test
+    fun 导出多行备注后可完整导入() = runBlocking {
+        val note = "第一行, \"带引号\"\n第二行"
+        app.repository.upsertMedication(
+            Medication(
+                name = "多行备注药",
+                doseType = DoseType.MORNING_NOON_NIGHT,
+                doseTimes = "08:00",
+                note = note,
+                quantity = 5.0,
+                createdAt = System.currentTimeMillis()
+            )
+        )
+        val csv = app.repository.exportCsv(app)
+
+        app.database.openHelper.writableDatabase.execSQL("DELETE FROM dose_records")
+        app.database.openHelper.writableDatabase.execSQL("DELETE FROM medications")
+
+        app.repository.importCsv(csv)
+        val imported = app.repository.observeAllMedications().first().first { it.name == "多行备注药" }
+        assertEquals(note, imported.note)
+    }
+
+    @Test
+    fun 删除药品后记录与导出仍保留药名() = runBlocking {
+        val name = "历史药名测试药"
+        val id = app.repository.upsertMedication(
+            Medication(
+                name = name,
+                doseType = DoseType.MORNING_NOON_NIGHT,
+                doseTimes = "08:00",
+                quantity = 10.0,
+                createdAt = System.currentTimeMillis()
+            )
+        )
+        app.repository.addRecord(id, LocalDate.now().toString(), "08:05", RecordCategory.NORMAL, scheduledTime = "08:00")
+        val med = app.repository.getMedication(id)!!
+        app.repository.deleteMedication(med)
+
+        val csv = app.repository.exportCsv(app)
+        assertTrue("删除药品后导出仍应保留历史药名", csv.contains(name))
+    }
+
+    @Test
     fun 导出包含标注列与计划日期列() = runBlocking {
         val medId = app.repository.upsertMedication(
             Medication(

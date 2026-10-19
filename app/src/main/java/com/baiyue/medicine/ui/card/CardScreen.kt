@@ -147,8 +147,15 @@ fun CardScreen(
                 title = stringResource(if (showRx) R.string.card_filter_prescription else R.string.card_filter_today),
                 trailing = {
                     AppPill(
-                        if (showRx) stringResource(R.string.card_rx_count, prescriptions.size)
-                        else pluralStringResource(R.plurals.ui_day_records_plural, todayEntries.size, todayEntries.size),
+                        if (showRx) {
+                            pluralStringResource(
+                                R.plurals.ui_medicines_count,
+                                prescriptions.size,
+                                prescriptions.size
+                            )
+                        } else {
+                            pluralStringResource(R.plurals.ui_day_records_plural, todayEntries.size, todayEntries.size)
+                        },
                         glyph = if (showRx) AppGlyph.Pill else AppGlyph.Chart
                     )
                 }
@@ -301,7 +308,7 @@ private fun SummaryHero(
                 Spacer(Modifier.weight(1f))
                 if (!showRx) {
                     Text(
-                        stringResource(R.string.card_rx_count, medicineCount),
+                        pluralStringResource(R.plurals.ui_medicines_count, medicineCount, medicineCount),
                         color = Color.White.copy(alpha = 0.72f),
                         fontSize = 11.sp,
                         textAlign = TextAlign.End,

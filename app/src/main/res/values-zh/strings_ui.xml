@@ -39,6 +39,10 @@
     <string name="ui_add_first_medicine">添加第一种药品</string>
     <string name="ui_no_meds_title">还没有添加药品</string>
     <string name="ui_no_meds_body">添加第一种药品，开始记录服药与提醒。</string>
+    <string name="ui_search_placeholder">搜索药品名称或备注</string>
+    <string name="ui_no_search_results">没有找到匹配的药品</string>
+    <string name="ui_search_try_another">试试其他名称、备注或服用方式。</string>
+    <string name="ui_clear_search">清除搜索</string>
     <string name="ui_kind_unit">种</string>
     <string name="ui_week_short">本周</string>
     <string name="ui_month_short">本月</string>
@@ -52,5 +56,8 @@
     </plurals>
     <plurals name="settings_days_plural">
         <item quantity="other">%1$d 天</item>
+    </plurals>
+    <plurals name="ui_medicines_count">
+        <item quantity="other">共 %1$d 种药品</item>
     </plurals>
 </resources>

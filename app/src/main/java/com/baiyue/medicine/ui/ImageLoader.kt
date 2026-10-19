@@ -1,7 +1,5 @@
 package com.baiyue.medicine.ui
 
-import android.graphics.BitmapFactory
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,6 +33,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.baiyue.medicine.R
+import com.baiyue.medicine.data.MedicationImageStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -47,11 +46,7 @@ fun MedicationImage(uri: String, size: Dp = 48.dp, modifier: Modifier = Modifier
     LaunchedEffect(uri) {
         if (uri.isBlank()) return@LaunchedEffect
         bitmap = withContext(Dispatchers.IO) {
-            runCatching {
-                context.contentResolver.openInputStream(Uri.parse(uri))?.use { ins ->
-                    BitmapFactory.decodeStream(ins)?.asImageBitmap()
-                }
-            }.getOrNull()
+            MedicationImageStore.loadBitmap(context, uri)?.asImageBitmap()
         }
     }
 

@@ -7,11 +7,13 @@ import com.baiyue.medicine.MedicineApp
 import com.baiyue.medicine.data.AppSettings
 import com.baiyue.medicine.reminder.KeepAliveService
 import com.baiyue.medicine.reminder.ReminderScheduler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsViewModel(app: Application) : AndroidViewModel(app) {
     private val medicineApp = app as MedicineApp
@@ -60,10 +62,14 @@ class SettingsViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /** 导出全部数据为 CSV 文本 */
-    suspend fun exportCsv(): String = medicineApp.repository.exportCsv(getApplication())
+    suspend fun exportCsv(): String = withContext(Dispatchers.IO) {
+        medicineApp.repository.exportCsv(getApplication())
+    }
 
     /** 从 CSV 备份导入，返回导入的记录条数 */
-    suspend fun importCsv(csv: String): Int = medicineApp.repository.importCsv(csv)
+    suspend fun importCsv(csv: String): Int = withContext(Dispatchers.IO) {
+        medicineApp.repository.importCsv(csv)
+    }
 
     /** 按最新设置同步所有闹钟 */
     private suspend fun reschedule() {

@@ -39,6 +39,10 @@
     <string name="ui_add_first_medicine">Add your first medicine</string>
     <string name="ui_no_meds_title">No medicines yet</string>
     <string name="ui_no_meds_body">Add your first medicine to start tracking doses and reminders.</string>
+    <string name="ui_search_placeholder">Search medicines or notes</string>
+    <string name="ui_no_search_results">No matching medicines</string>
+    <string name="ui_search_try_another">Try another name, note, or route.</string>
+    <string name="ui_clear_search">Clear search</string>
     <string name="ui_kind_unit">kinds</string>
     <string name="ui_week_short">This week</string>
     <string name="ui_month_short">This month</string>
@@ -55,5 +59,9 @@
     <plurals name="settings_days_plural">
         <item quantity="one">%1$d day</item>
         <item quantity="other">%1$d days</item>
+    </plurals>
+    <plurals name="ui_medicines_count">
+        <item quantity="one">%1$d medicine</item>
+        <item quantity="other">%1$d medicines</item>
     </plurals>
 </resources>

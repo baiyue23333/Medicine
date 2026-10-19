@@ -12,10 +12,14 @@
 
     <!-- Notification content -->
     <string name="notif_dose_title">Medication reminder</string>
+    <string name="notif_dose_text">Time to take %1$s (%2$s)</string>
     <string name="notif_visit_title">Refill reminder</string>
     <string name="notif_visit_text">These medicines are running out, please see a doctor or refill soon: %1$s</string>
     <string name="notif_missed_title">Missed dose</string>
     <string name="notif_missed_text">The %1$s dose has not been checked in — you can backfill it on the Check-in page</string>
+    <string name="notif_action_taken">Taken</string>
+    <string name="notif_action_snooze">Snooze 10 min</string>
+    <string name="notif_snoozed">Reminder snoozed for %1$d min</string>
     <string name="notif_keep_title">Medicine Assistant is running</string>
     <string name="notif_keep_text">Keeps dose reminders running reliably</string>
     <string name="notif_name_separator">,\u0020</string>

@@ -8,6 +8,8 @@
     <string name="settings_missed_reminder_desc">Remind me to backfill one hour after a missed dose</string>
     <string name="settings_notif_permission">Notification permission</string>
     <string name="settings_notif_permission_desc">Not granted, reminder notifications stay hidden</string>
+    <string name="settings_exact_alarm">Exact reminder permission</string>
+    <string name="settings_exact_alarm_desc">Not granted; reminders may be delayed by the system</string>
     <string name="settings_go_enable">Enable</string>
     <string name="settings_keep_alive">Keep-alive</string>
     <string name="settings_keep_alive_desc">Persistent foreground service keeps reminders on time</string>
