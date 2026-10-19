@@ -1,5 +1,7 @@
 *.iml
 .gradle/
+.gradle-home/
+.tmp/
 build/
 local.properties
 .idea/

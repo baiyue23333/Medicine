@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用界面 -->
+    <string name="ui_settings">设置</string>
+    <string name="ui_back">返回</string>
+    <string name="ui_show_image">显示药品图片</string>
+
+    <!-- 页面副标题 -->
+    <string name="ui_checkin_subtitle">把每一次按时服药，变成看得见的进步。</string>
+    <string name="ui_calendar_subtitle">回看每一天，稳稳积累健康。</string>
+    <string name="ui_manage_subtitle">把库存、服用方案与提醒，收进一个清爽的药箱。</string>
+    <string name="ui_card_subtitle">你的每日服药成绩单。</string>
+    <string name="ui_settings_subtitle">让提醒与记录更贴合你的生活习惯。</string>
+
+    <!-- 分区 -->
+    <string name="ui_today_plan">今日计划</string>
+    <string name="ui_all_done_subtitle">当前没有待服药品，下一剂会准时提醒你。</string>
+    <string name="ui_progress_count">待服 %1$d 项</string>
+    <string name="ui_manage_list">全部药品</string>
+    <string name="ui_manage_eyebrow">我的药箱</string>
+    <string name="ui_calendar_month_summary">本月 %1$d 天有服药记录</string>
+    <string name="ui_day_records">%1$d 条记录</string>
+    <string name="ui_visit_period">处于就医提醒时间段</string>
+    <string name="ui_missed_hint">点击可补签，或标记为确实未服。</string>
+    <string name="ui_section_reminders">提醒</string>
+    <string name="ui_section_preferences">偏好</string>
+    <string name="ui_section_data">数据与备份</string>
+    <string name="ui_section_about">关于</string>
+    <string name="ui_section_basic">基本信息</string>
+    <string name="ui_section_stock">库存与提醒</string>
+    <string name="ui_form_notes">备注</string>
+    <string name="ui_notes">备注</string>
+    <string name="ui_stock_left">现有库存</string>
+    <string name="ui_no_note">暂无备注</string>
+    <string name="ui_version">版本 %1$s</string>
+    <string name="ui_data_local_only">数据仅保存在本机，不会上传。</string>
+    <string name="ui_today">今天</string>
+    <string name="ui_optional">可选</string>
+    <string name="ui_add_first_medicine">添加第一种药品</string>
+    <string name="ui_no_meds_title">还没有添加药品</string>
+    <string name="ui_no_meds_body">添加第一种药品，开始记录服药与提醒。</string>
+    <string name="ui_kind_unit">种</string>
+    <string name="ui_week_short">本周</string>
+    <string name="ui_month_short">本月</string>
+    <string name="ui_doses_unit">次</string>
+
+    <plurals name="ui_day_records_plural">
+        <item quantity="other">%1$d 条记录</item>
+    </plurals>
+    <plurals name="ui_calendar_month_summary_plural">
+        <item quantity="other">本月 %1$d 天有服药记录</item>
+    </plurals>
+    <plurals name="settings_days_plural">
+        <item quantity="other">%1$d 天</item>
+    </plurals>
+</resources>

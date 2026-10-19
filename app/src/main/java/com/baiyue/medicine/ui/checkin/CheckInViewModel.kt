@@ -205,6 +205,11 @@ class CheckInViewModel(app: Application) : AndroidViewModel(app) {
     val occasionalMeds: StateFlow<List<Medication>> = repo.observeOccasional()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    /** 是否已经添加过任何药品（用于空状态引导） */
+    val hasMedications: StateFlow<Boolean> = repo.observeAllMedications()
+        .map { it.isNotEmpty() }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     /** 两次服用过近：同一药品最近两次（24h 内）间隔小于 [MIN_GAP_MINUTES] 分钟时提醒 */
     val closeDoseWarnings: StateFlow<List<CloseDoseWarning>> = combine(
         repo.observeAllMedications(),

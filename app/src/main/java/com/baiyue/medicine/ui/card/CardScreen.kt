@@ -1,13 +1,17 @@
 package com.baiyue.medicine.ui.card
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,14 +19,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -35,28 +38,53 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.baiyue.medicine.R
 import com.baiyue.medicine.data.entity.Medication
-import com.baiyue.medicine.ui.MedicationImage
+import com.baiyue.medicine.ui.components.AppCard
+import com.baiyue.medicine.ui.components.AppGlyph
+import com.baiyue.medicine.ui.components.AppPill
+import com.baiyue.medicine.ui.components.AppSegmentedControl
+import com.baiyue.medicine.ui.components.EmptyState
+import com.baiyue.medicine.ui.components.GlyphIcon
+import com.baiyue.medicine.ui.components.HeroDecorations
+import com.baiyue.medicine.ui.components.MedicationAvatar
+import com.baiyue.medicine.ui.components.ScreenHeader
+import com.baiyue.medicine.ui.components.SectionHeader
 import com.baiyue.medicine.ui.doseLabel
 import com.baiyue.medicine.ui.intakeLabel
 import com.baiyue.medicine.ui.localizedDate
 import com.baiyue.medicine.ui.usageLabel
+import com.baiyue.medicine.ui.theme.CardWhite
 import com.baiyue.medicine.ui.theme.CheckGreen
+import com.baiyue.medicine.ui.theme.HeroEnd
+import com.baiyue.medicine.ui.theme.HeroGlow
+import com.baiyue.medicine.ui.theme.HeroStart
+import com.baiyue.medicine.ui.theme.MintTint
+import com.baiyue.medicine.ui.theme.MintWash
 import com.baiyue.medicine.ui.theme.OccasionalOrange
 import com.baiyue.medicine.ui.theme.PrimaryGreen
 import com.baiyue.medicine.ui.theme.TextDark
+import com.baiyue.medicine.ui.theme.TextFaint
 import com.baiyue.medicine.ui.theme.TextSub
+import com.baiyue.medicine.ui.theme.WarmTint
 import java.time.LocalDate
 
 @Composable
-fun CardScreen(vm: CardViewModel = viewModel()) {
+fun CardScreen(
+    onOpenSettings: () -> Unit = {},
+    vm: CardViewModel = viewModel()
+) {
     val todayEntries by vm.todayEntries.collectAsState()
     val prescriptions by vm.prescriptions.collectAsState()
     val periodCounts by vm.periodCounts.collectAsState()
@@ -68,110 +96,91 @@ fun CardScreen(vm: CardViewModel = viewModel()) {
     val totalDoses = todayEntries.sumOf { it.totalCount }
     val today = LocalDate.now()
 
-    val summaryColor by animateColorAsState(
-        targetValue = if (showRx) PrimaryGreen else CheckGreen,
-        animationSpec = tween(400),
-        label = "summaryColor"
-    )
-
-    Column(Modifier.fillMaxSize().padding(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                stringResource(R.string.card_title),
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = TextDark
-            )
-            Spacer(Modifier.weight(1f))
-            FilterChip(
-                selected = !showRx,
-                onClick = { showRx = false },
-                label = { Text(stringResource(R.string.card_filter_today)) }
-            )
-            Spacer(Modifier.width(8.dp))
-            FilterChip(
-                selected = showRx,
-                onClick = { showRx = true },
-                label = { Text(stringResource(R.string.card_filter_prescription)) }
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
+        contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 14.dp, bottom = 28.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        item(key = "header") {
+            ScreenHeader(
+                eyebrow = localizedDate(today, R.string.common_date_header),
+                title = stringResource(R.string.card_title),
+                subtitle = stringResource(R.string.ui_card_subtitle),
+                onOpenSettings = onOpenSettings
             )
         }
-        Spacer(Modifier.height(12.dp))
 
-        Card(
-            colors = CardDefaults.cardColors(containerColor = summaryColor),
-            shape = RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
+        item(key = "segments") {
+            AppSegmentedControl(
+                options = listOf(
+                    stringResource(R.string.card_filter_today),
+                    stringResource(R.string.card_filter_prescription)
+                ),
+                selectedIndex = if (showRx) 1 else 0,
+                onSelect = { showRx = it == 1 },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        item(key = "hero") {
+            SummaryHero(
+                showRx = showRx,
+                totalDoses = totalDoses,
+                medicineCount = if (showRx) prescriptions.size else todayEntries.size,
+                week = periodCounts.week,
+                month = periodCounts.month,
+                date = today,
+                onTap = {
                     summaryTaps += 1
                     if (summaryTaps >= 10) {
                         summaryTaps = 0
                         easterEgg = true
                     }
                 }
-        ) {
-            Column(Modifier.padding(16.dp)) {
-                Text(
-                    if (showRx) stringResource(R.string.card_my_prescription)
-                    else stringResource(
-                        R.string.card_summary_title,
-                        localizedDate(today, R.string.common_date_day)
-                    ),
-                    color = Color.White,
-                    fontWeight = FontWeight.Medium
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    if (showRx) stringResource(R.string.card_rx_count, prescriptions.size)
-                    else stringResource(R.string.card_today_summary, totalDoses, todayEntries.size),
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                if (!showRx) {
-                    Spacer(Modifier.height(6.dp))
-                    Text(
-                        stringResource(R.string.card_week_month_taken, periodCounts.week, periodCounts.month),
-                        color = Color.White.copy(alpha = 0.9f),
-                        fontSize = 13.sp
-                    )
-                }
-            }
+            )
         }
 
-        Spacer(Modifier.height(12.dp))
+        item(key = "listHeader") {
+            SectionHeader(
+                title = stringResource(if (showRx) R.string.card_filter_prescription else R.string.card_filter_today),
+                trailing = {
+                    AppPill(
+                        if (showRx) stringResource(R.string.card_rx_count, prescriptions.size)
+                        else pluralStringResource(R.plurals.ui_day_records_plural, todayEntries.size, todayEntries.size),
+                        glyph = if (showRx) AppGlyph.Pill else AppGlyph.Chart
+                    )
+                }
+            )
+        }
 
-        Crossfade(targetState = showRx, animationSpec = tween(300), label = "listCrossfade") { rx ->
-            if (rx) {
-                if (prescriptions.isEmpty()) {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(stringResource(R.string.card_empty_prescriptions), color = TextSub)
-                    }
-                } else {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(prescriptions, key = { it.id }) { med ->
-                            RxEntryCard(med, showImage)
-                        }
-                    }
+        if (showRx) {
+            if (prescriptions.isEmpty()) {
+                item(key = "emptyRx") {
+                    EmptyState(
+                        glyph = AppGlyph.Pill,
+                        title = stringResource(R.string.card_empty_prescriptions),
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             } else {
-                if (todayEntries.isEmpty()) {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(stringResource(R.string.card_empty_today), color = TextSub)
-                    }
-                } else {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(todayEntries, key = { it.medication.id }) { entry ->
-                            EntryCard(entry, showImage)
-                        }
-                    }
+                items(prescriptions, key = { "rx-${it.id}" }) { med ->
+                    RxEntryCard(med = med, showImage = showImage)
+                }
+            }
+        } else {
+            if (todayEntries.isEmpty()) {
+                item(key = "emptyToday") {
+                    EmptyState(
+                        glyph = AppGlyph.Check,
+                        title = stringResource(R.string.card_empty_today),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            } else {
+                items(todayEntries, key = { "entry-${it.medication.id}" }) { entry ->
+                    EntryCard(entry = entry, showImage = showImage)
                 }
             }
         }
@@ -180,7 +189,32 @@ fun CardScreen(vm: CardViewModel = viewModel()) {
     if (easterEgg) {
         AlertDialog(
             onDismissRequest = { easterEgg = false },
-            text = { Text(stringResource(R.string.card_easter_egg), color = TextDark, fontWeight = FontWeight.Bold) },
+            shape = RoundedCornerShape(30.dp),
+            containerColor = CardWhite,
+            text = {
+                Column(
+                    Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        Modifier
+                            .size(58.dp)
+                            .clip(CircleShape)
+                            .background(MintTint),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        GlyphIcon(AppGlyph.Heart, tint = PrimaryGreen, size = 28.dp)
+                    }
+                    Spacer(Modifier.height(14.dp))
+                    Text(
+                        stringResource(R.string.card_easter_egg),
+                        color = TextDark,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 17.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            },
             confirmButton = {
                 TextButton(onClick = { easterEgg = false }) { Text(stringResource(R.string.action_ok)) }
             }
@@ -189,26 +223,185 @@ fun CardScreen(vm: CardViewModel = viewModel()) {
 }
 
 @Composable
-private fun RxEntryCard(med: Medication, showImage: Boolean) {
-    Card(
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = Modifier.fillMaxWidth()
+private fun SummaryHero(
+    showRx: Boolean,
+    totalDoses: Int,
+    medicineCount: Int,
+    week: Int,
+    month: Int,
+    date: LocalDate,
+    onTap: () -> Unit
+) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(30.dp))
+            .background(Brush.linearGradient(listOf(HeroStart, HeroEnd)))
+            .clickable(onClick = onTap)
     ) {
-        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            if (showImage) {
-                MedicationImage(med.imageUri, 48.dp)
-                Spacer(Modifier.width(12.dp))
+        HeroDecorations(Modifier.matchParentSize(), accent = Color.White)
+        Canvas(Modifier.matchParentSize()) {
+            drawCircle(
+                color = HeroGlow.copy(alpha = 0.18f),
+                radius = size.width * 0.3f,
+                center = Offset(size.width * 0.9f, size.height * 0.06f)
+            )
+        }
+        Column(Modifier.padding(22.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                GlyphIcon(
+                    if (showRx) AppGlyph.Pill else AppGlyph.Sparkle,
+                    tint = Color.White.copy(alpha = 0.85f),
+                    size = 14.dp
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(
+                    if (showRx) stringResource(R.string.card_my_prescription)
+                    else stringResource(R.string.card_summary_title, localizedDate(date, R.string.common_date_day)),
+                    color = Color.White.copy(alpha = 0.82f),
+                    fontSize = 11.5.sp,
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
+                if (!showRx) {
+                    AppPill(
+                        stringResource(R.string.ui_today),
+                        color = Color.White,
+                        containerColor = Color.White.copy(alpha = 0.15f),
+                        glyph = AppGlyph.Sun
+                    )
+                }
             }
+
+            Spacer(Modifier.height(18.dp))
+
+            Row(verticalAlignment = Alignment.Bottom) {
+                AnimatedContent(
+                    targetState = if (showRx) medicineCount else totalDoses,
+                    transitionSpec = { fadeIn(tween(180)) togetherWith fadeOut(tween(140)) },
+                    label = "heroNumber"
+                ) { number ->
+                    Text(
+                        "$number",
+                        color = Color.White,
+                        fontSize = 48.sp,
+                        fontWeight = FontWeight.Bold,
+                        lineHeight = 50.sp
+                    )
+                }
+                Spacer(Modifier.width(7.dp))
+                Text(
+                    stringResource(if (showRx) R.string.ui_kind_unit else R.string.ui_doses_unit),
+                    color = Color.White.copy(alpha = 0.72f),
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(bottom = 7.dp)
+                )
+                Spacer(Modifier.weight(1f))
+                if (!showRx) {
+                    Text(
+                        stringResource(R.string.card_rx_count, medicineCount),
+                        color = Color.White.copy(alpha = 0.72f),
+                        fontSize = 11.sp,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(Color.White.copy(alpha = 0.12f))
+                    .padding(vertical = 11.dp)
+            ) {
+                HeroStat(
+                    value = week,
+                    label = stringResource(R.string.ui_week_short),
+                    modifier = Modifier.weight(1f)
+                )
+                Box(
+                    Modifier
+                        .width(1.dp)
+                        .height(28.dp)
+                        .background(Color.White.copy(alpha = 0.16f))
+                )
+                HeroStat(
+                    value = month,
+                    label = stringResource(R.string.ui_month_short),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun HeroStat(value: Int, label: String, modifier: Modifier = Modifier) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            "$value",
+            color = Color.White,
+            fontSize = 19.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            label,
+            color = Color.White.copy(alpha = 0.66f),
+            fontSize = 10.sp
+        )
+    }
+}
+
+@Composable
+private fun RxEntryCard(med: Medication, showImage: Boolean) {
+    AppCard(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(15.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            MedicationAvatar(
+                name = med.name,
+                imageUri = med.imageUri,
+                showImage = showImage,
+                size = 52.dp
+            )
+            Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(med.name, color = TextDark, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(4.dp))
-                Text(stringResource(R.string.label_usage, usageLabel(med)), color = TextSub, fontSize = 12.sp)
-                Text(stringResource(R.string.label_frequency, doseLabel(med)), color = TextSub, fontSize = 12.sp)
-                Text(intakeLabel(med), color = TextSub, fontSize = 12.sp)
+                Text(
+                    med.name,
+                    color = TextDark,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(5.dp))
+                Text(
+                    doseLabel(med),
+                    color = TextSub,
+                    fontSize = 11.5.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(5.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    AppPill(usageLabel(med), glyph = AppGlyph.Leaf)
+                    AppPill(intakeLabel(med), glyph = AppGlyph.Pill)
+                }
                 if (med.note.isNotBlank()) {
-                    Text(med.note, color = TextSub, fontSize = 12.sp)
+                    Spacer(Modifier.height(5.dp))
+                    Text(
+                        med.note,
+                        color = TextFaint,
+                        fontSize = 10.5.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         }
@@ -218,44 +411,78 @@ private fun RxEntryCard(med: Medication, showImage: Boolean) {
 @Composable
 private fun EntryCard(entry: CardEntry, showImage: Boolean) {
     val med = entry.medication
-    Card(
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = Modifier.fillMaxWidth()
+    AppCard(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(15.dp)
     ) {
-        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            if (showImage) {
-                MedicationImage(med.imageUri, 48.dp)
-                Spacer(Modifier.width(12.dp))
-            }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            MedicationAvatar(
+                name = med.name,
+                imageUri = med.imageUri,
+                showImage = showImage,
+                size = 52.dp
+            )
+            Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(med.name, color = TextDark, fontWeight = FontWeight.Bold)
-                Text(usageLabel(med), color = TextSub, fontSize = 12.sp)
-                Text(intakeLabel(med), color = TextSub, fontSize = 12.sp)
-                if (med.note.isNotBlank()) {
-                    Text(med.note, color = TextSub, fontSize = 12.sp)
-                }
+                Text(
+                    med.name,
+                    color = TextDark,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Spacer(Modifier.height(4.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (entry.normalCount > 0) DotLabel(CheckGreen, stringResource(R.string.card_normal_count, entry.normalCount))
-                    if (entry.occasionalCount > 0) DotLabel(OccasionalOrange, stringResource(R.string.card_occasional_count, entry.occasionalCount))
+                Text(
+                    "${usageLabel(med)} · ${intakeLabel(med)}",
+                    color = TextSub,
+                    fontSize = 11.5.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(7.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    if (entry.normalCount > 0) {
+                        AppPill(
+                            stringResource(R.string.card_normal_count, entry.normalCount),
+                            color = PrimaryGreen,
+                            containerColor = MintTint
+                        )
+                    }
+                    if (entry.occasionalCount > 0) {
+                        AppPill(
+                            stringResource(R.string.card_occasional_count, entry.occasionalCount),
+                            color = OccasionalOrange,
+                            containerColor = WarmTint
+                        )
+                    }
                 }
             }
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(10.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("${entry.totalCount}", color = PrimaryGreen, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                Text(stringResource(R.string.card_unit_times), color = TextSub, fontSize = 12.sp)
+                Box(
+                    Modifier
+                        .size(54.dp)
+                        .clip(CircleShape)
+                        .background(
+                            Brush.linearGradient(listOf(MintTint, MintWash))
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        "${entry.totalCount}",
+                        color = PrimaryGreen,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Spacer(Modifier.height(3.dp))
+                Text(
+                    stringResource(R.string.card_unit_times),
+                    color = TextFaint,
+                    fontSize = 9.5.sp
+                )
             }
         }
-    }
-}
-
-@Composable
-private fun DotLabel(color: Color, label: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(8.dp).clip(RoundedCornerShape(2.dp)).background(color))
-        Spacer(Modifier.width(4.dp))
-        Text(label, color = TextSub, fontSize = 12.sp)
     }
 }

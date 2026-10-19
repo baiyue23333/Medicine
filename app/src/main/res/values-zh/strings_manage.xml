@@ -3,7 +3,7 @@
     <!-- 药品管理页 -->
     <string name="manage_title">药品管理</string>
     <string name="manage_show_image">显示图片</string>
-    <string name="manage_empty_hint">暂无药品，点击右下角 + 添加</string>
+    <string name="manage_empty_hint">还没有药品，先添加第一种药品吧。</string>
     <string name="manage_add_medication">添加药品</string>
     <string name="manage_edit_medication">编辑药品</string>
 
@@ -26,6 +26,7 @@
     <string name="manage_no_quantity_no_prediction">未设置总量，暂不预测</string>
     <string name="manage_total_quantity">总量 %1$s</string>
     <string name="manage_remaining_visit_reminder">剩余 %1$s，已触发就医提醒</string>
+    <string name="manage_remaining_day">剩余 %1$s，预计可服 1 天</string>
     <string name="manage_remaining_days">剩余 %1$s，预计可服 %2$d 天</string>
 
     <!-- 药品表单 -->

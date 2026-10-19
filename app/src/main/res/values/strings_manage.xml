@@ -3,7 +3,7 @@
     <!-- Medicine management screen -->
     <string name="manage_title">Medicines</string>
     <string name="manage_show_image">Show image</string>
-    <string name="manage_empty_hint">No medicines yet. Tap + at the bottom right to add.</string>
+    <string name="manage_empty_hint">No medicines yet. Add your first medicine to begin.</string>
     <string name="manage_add_medication">Add medicine</string>
     <string name="manage_edit_medication">Edit medicine</string>
 
@@ -26,7 +26,8 @@
     <string name="manage_no_quantity_no_prediction">Total not set, no prediction yet</string>
     <string name="manage_total_quantity">Total %1$s</string>
     <string name="manage_remaining_visit_reminder">Remaining %1$s, visit reminder triggered</string>
-    <string name="manage_remaining_days">Remaining %1$s, about %2$d day(s) left</string>
+    <string name="manage_remaining_day">Remaining %1$s, about 1 day left</string>
+    <string name="manage_remaining_days">Remaining %1$s, about %2$d days left</string>
 
     <!-- Medicine form -->
     <string name="manage_field_name">Medicine name</string>
